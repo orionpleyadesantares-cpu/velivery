@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ea580c" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Velivery • Cadetería & Delivery</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fuente Inter para máxima legibilidad en celulares -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: #e2e8f0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Evitar zoom automático en inputs en iOS manteniendo font-size >= 16px */
+    input, select, textarea {
+      font-size: 16px !important;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .animate-slide-up {
+      animation: slideUp 0.25s ease-out forwards;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex justify-center bg-slate-200 text-slate-900">
+
+  <!-- Contenedor principal Mobile-First -->
+  <div class="w-full max-w-md min-h-screen bg-slate-50 shadow-2xl flex flex-col relative pb-28">
+
+    <!-- ==================== ENCABEZADO VELIVERY ==================== -->
+    <header class="bg-gradient-to-br from-orange-600 via-orange-500 to-amber-500 text-white px-5 pt-6 pb-7 rounded-b-3xl shadow-md">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3.5">
+          <!-- Isotipo rayo de velocidad -->
+          <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-inner shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-2xl font-black tracking-tight leading-none">
+              Velivery
+            </h1>
+            <p class="text-orange-100 text-xs font-semibold mt-1">
+              Cadetería &amp; Delivery Independiente
+            </p>
+          </div>
+        </div>
+
+        <!-- Botón instructivo para instalar como app en pantalla -->
+        <button
+          id="open-install-btn"
+          type="button"
+          class="bg-white/20 hover:bg-white/30 active:scale-95 text-white text-xs font-bold px-3 py-2 rounded-2xl transition shrink-0"
+        >
+          📲 Guardar App
+        </button>
+      </div>
+
+      <!-- Corredor Ruta 9 -->
+      <div class="mt-4 bg-black/15 rounded-2xl px-3.5 py-2.5 flex items-center justify-center">
+        <span class="text-xs font-bold text-white tracking-wide text-center">
+          📍 Pilar • Río Segundo • Costa Sacate • Laguna Larga
+        </span>
+      </div>
+
+      <!-- Indicador activo -->
+      <div class="mt-3 flex items-center justify-between text-xs">
+        <span class="inline-flex items-center gap-2 bg-white text-slate-900 px-3 py-1 rounded-full font-extrabold shadow-xs">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+          Servicio activo • Ruta 9
+        </span>
+        <span class="text-orange-100 font-semibold">Cotización al instante</span>
+      </div>
+    </header>
+
+    <!-- ==================== FORMULARIO DE PEDIDO ==================== -->
+    <main class="px-4 pt-5 space-y-5 flex-1">
+
+      <!-- Mensaje de aviso inline (reemplaza alert()) -->
+      <div id="toast-alert" class="hidden rounded-2xl p-3.5 text-sm font-bold shadow-md border transition-all"></div>
+
+      <!-- PASO 1: MODALIDAD DE SERVICIO -->
+      <section class="bg-white rounded-3xl p-4 shadow-sm border border-slate-200/80">
+        <h2 class="text-base font-extrabold text-slate-800 flex items-center gap-2 mb-3">
+          <span class="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs font-black flex items-center justify-center">1</span>
+          ¿Qué servicio necesitás?
+        </h2>
+
+        <div class="space-y-2.5" id="service-grid">
+          <!-- Modalidad 1: Envío / Mandado rápido ($0 adicional) -->
+          <button
+            type="button"
+            data-service="Envío / Mandado rápido"
+            data-extra="0"
+            class="service-card w-full flex items-center justify-between p-3.5 rounded-2xl border-2 border-orange-500 bg-orange-50/70 text-left transition active:scale-[0.98]"
+          >
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">🛵</span>
+              <div>
+                <span class="block text-sm font-extrabold text-slate-900">Envío / Mandado rápido</span>
+                <span class="block text-xs text-slate-500">Retiro y entrega directa en puerta</span>
+              </div>
+            </div>
+            <span class="text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-xl shrink-0">
+              Tarifa base
+            </span>
+          </button>
+
+          <!-- Modalidad 2: Compra en comercio / Farmacia (+$1.000 adicional) -->
+          <button
+            type="button"
+            data-service="Compra en comercio / Farmacia"
+            data-extra="1000"
+            class="service-card w-full flex items-center justify-between p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-slate-300 text-left transition active:scale-[0.98]"
+          >
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">🛒</span>
+              <div>
+                <span class="block text-sm font-extrabold text-slate-900">Compra en comercio / Farmacia</span>
+                <span class="block text-xs text-slate-500">Incluye gestión, compra o espera</span>
+              </div>
+            </div>
+            <span class="text-[11px] font-extrabold text-orange-700 bg-orange-100 px-2.5 py-1 rounded-xl shrink-0">
+              + $1.000
+            </span>
+          </button>
+
+          <!-- Modalidad 3: Encomienda Ruta 9 ($0 adicional) -->
+          <button
+            type="button"
+            data-service="Encomienda Ruta 9"
+            data-extra="0"
+            class="service-card w-full flex items-center justify-between p-3.5 rounded-2xl border-2 border-slate-200 bg-white hover:border-slate-300 text-left transition active:scale-[0.98]"
+          >
+            <div class="flex items-center gap-3">
+              <span class="text-2xl">📦</span>
+              <div>
+                <span class="block text-sm font-extrabold text-slate-900">Encomienda Ruta 9</span>
+                <span class="block text-xs text-slate-500">Paquetes, repuestos y comisiones</span>
+              </div>
+            </div>
+            <span class="text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-xl shrink-0">
+              Tarifa base
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <!-- PASO 2: RETIRO Y ENTREGA -->
+      <section class="bg-white rounded-3xl p-4 shadow-sm border border-slate-200/80 space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-base font-extrabold text-slate-800 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs font-black flex items-center justify-center">2</span>
+            Retiro y Entrega
+          </h2>
+          <button
+            id="swap-cities-btn"
+            type="button"
+            class="text-xs font-bold text-orange-600 bg-orange-50 hover:bg-orange-100 px-3 py-1.5 rounded-xl active:scale-95 transition"
+          >
+            ⇅ Invertir
+          </button>
+        </div>
+
+        <!-- LOCALIDAD Y DIRECCIÓN DE RETIRO -->
+        <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/90 space-y-2.5">
+          <label for="origin-city" class="block text-xs font-extrabold uppercase tracking-wider text-orange-600">
+            🟢 Localidad de Retiro
+          </label>
+          <select
+            id="origin-city"
+            class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-3 text-base font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
+          >
+            <option value="Pilar">Pilar</option>
+            <option value="Río Segundo">Río Segundo</option>
+            <option value="Costa Sacate">Costa Sacate</option>
+            <option value="Laguna Larga">Laguna Larga</option>
+          </select>
+
+          <input
+            id="origin-address"
+            type="text"
+            placeholder="Dirección o comercio de retiro (Ej: San Martín 450)"
+            class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
+        </div>
+
+        <!-- LOCALIDAD Y DIRECCIÓN DE ENTREGA -->
+        <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/90 space-y-2.5">
+          <label for="dest-city" class="block text-xs font-extrabold uppercase tracking-wider text-emerald-700">
+            🏁 Localidad de Entrega
+          </label>
+          <select
+            id="dest-city"
+            class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-3 text-base font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
+          >
+            <option value="Pilar">Pilar</option>
+            <option value="Río Segundo">Río Segundo</option>
+            <option value="Costa Sacate">Costa Sacate</option>
+            <option value="Laguna Larga">Laguna Larga</option>
+          </select>
+
+          <input
+            id="dest-address"
+            type="text"
+            placeholder="Dirección de entrega (Ej: B° Norte, Belgrano 120)"
+            class="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
+        </div>
+      </section>
+
+      <!-- PASO 3: TARIFA TOTAL CALCULADA -->
+      <section class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-3xl p-5 shadow-md">
+        <div class="flex items-center justify-between gap-2">
+          <div>
+            <p class="text-xs uppercase tracking-wider text-slate-400 font-bold">
+              Total del envío
+            </p>
+            <p id="route-summary-label" class="text-sm font-bold text-orange-300 mt-0.5">
+              Local dentro de Pilar
+            </p>
+            <p id="fare-breakdown" class="text-xs text-slate-300 mt-1">
+              Tramo: $3.000
+            </p>
+          </div>
+          <div class="text-right shrink-0">
+            <span id="estimated-price" class="text-3xl font-black tracking-tight text-white">
+              $3.000
+            </span>
+          </div>
+        </div>
+        <div class="mt-3 pt-3 border-t border-white/10 text-xs text-slate-300">
+          💵 Se abona al entregar (Efectivo o Transferencia)
+        </div>
+      </section>
+
+      <!-- PASO 4: DETALLE DEL PEDIDO Y MEDIO DE PAGO -->
+      <section class="bg-white rounded-3xl p-4 shadow-sm border border-slate-200/80 space-y-4">
+        <h2 class="text-base font-extrabold text-slate-800 flex items-center gap-2">
+          <span class="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs font-black flex items-center justify-center">3</span>
+          Detalle y Forma de Pago
+        </h2>
+
+        <div>
+          <label for="order-notes" class="block text-xs font-bold text-slate-600 mb-1.5">
+            ¿Qué llevamos o compramos?
+          </label>
+          <textarea
+            id="order-notes"
+            rows="3"
+            placeholder="Ej: Un paquete chico, pedido de rotisería, medicamento en farmacia o repuesto..."
+            class="w-full bg-slate-50 border border-slate-300 rounded-2xl p-3.5 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
+          ></textarea>
+        </div>
+
+        <!-- Medio de pago -->
+        <div>
+          <span class="block text-xs font-bold text-slate-600 mb-2">Método de pago</span>
+          <div class="grid grid-cols-2 gap-2.5" id="payment-grid">
+            <button
+              type="button"
+              data-payment="Efectivo"
+              class="payment-btn py-3.5 px-3 rounded-2xl border-2 border-emerald-600 bg-emerald-50 text-emerald-900 font-extrabold text-sm flex items-center justify-center gap-2 transition active:scale-95"
+            >
+              <span>💵</span> Efectivo
+            </button>
+            <button
+              type="button"
+              data-payment="Transferencia"
+              class="payment-btn py-3.5 px-3 rounded-2xl border-2 border-slate-200 bg-white text-slate-700 font-extrabold text-sm flex items-center justify-center gap-2 transition active:scale-95"
+            >
+              <span>📲</span> Transferencia
+            </button>
+          </div>
+        </div>
+
+        <!-- Nombre opcional -->
+        <div>
+          <label for="client-name" class="block text-xs font-bold text-slate-600 mb-1.5">
+            Tu nombre o comercio (opcional)
+          </label>
+          <input
+            id="client-name"
+            type="text"
+            placeholder="Ej: María / Farmacia Centro"
+            class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
+          />
+        </div>
+      </section>
+
+      <!-- SECCIÓN INSTRUCTIVA RÁPIDA: AGREGAR A PANTALLA DE INICIO -->
+      <section class="bg-orange-50 border border-orange-200 rounded-3xl p-4 space-y-2">
+        <div class="flex items-center justify-between gap-2">
+          <p class="text-xs font-extrabold text-orange-900">📲 Tené Velivery siempre a mano</p>
+          <button
+            id="banner-install-btn"
+            type="button"
+            class="bg-orange-600 text-white text-xs font-bold px-3 py-1.5 rounded-xl shrink-0 active:scale-95 transition"
+          >
+            Ver pasos
+          </button>
+        </div>
+        <p class="text-xs text-orange-800 leading-relaxed">
+          Agregá esta web a la <strong>pantalla de inicio de tu celular</strong> para abrirla como una app sin ocupar memoria.
+        </p>
+      </section>
+
+      <!-- VISTA PREVIA DEL MENSAJE -->
+      <section class="bg-slate-100 rounded-3xl p-4 border border-slate-200 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">
+            Resumen que se envía por WhatsApp
+          </span>
+          <button
+            id="copy-preview-btn"
+            type="button"
+            class="text-xs font-bold text-slate-700 bg-white px-2.5 py-1 rounded-lg border border-slate-300 active:scale-95 transition"
+          >
+            Copiar
+          </button>
+        </div>
+        <pre id="whatsapp-preview" class="text-xs text-slate-800 whitespace-pre-wrap font-sans bg-white p-3.5 rounded-2xl border border-slate-200 leading-relaxed"></pre>
+      </section>
+
+    </main>
+
+    <!-- ==================== BOTÓN FIJO INFERIOR WHATSAPP ==================== -->
+    <div class="fixed bottom-0 w-full max-w-md bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3.5 z-30">
+      <button
+        id="send-whatsapp-btn"
+        type="button"
+        class="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-[0.98] text-white font-extrabold text-base py-4 px-5 rounded-2xl shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-3 transition"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 fill-current shrink-0" viewBox="0 0 24 24">
+          <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/>
+          <path d="M12 2C6.486 2 2 6.486 2 12c0 1.767.463 3.49 1.342 5.009L2 22l5.134-1.314A9.93 9.93 0 0 0 12 22c5.514 0 10-4.486 10-10S17.514 2 12 2zm0 18c-1.576 0-3.118-.42-4.464-1.216l-.32-.189-3.046.78.814-2.969-.208-.332A7.943 7.943 0 0 1 4 12c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8z"/>
+        </svg>
+        <span>Pedir Velivery por WhatsApp</span>
+      </button>
+    </div>
+
+    <!-- ==================== MODAL INSTRUCTIVO PANTALLA DE INICIO ==================== -->
+    <div id="install-modal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-xs z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 max-h-[85vh] overflow-y-auto shadow-2xl animate-slide-up space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <h3 class="text-lg font-extrabold text-slate-900">Guardar Velivery en tu celular</h3>
+            <p class="text-xs text-slate-500">Acceso directo con ícono en tu pantalla</p>
+          </div>
+          <button id="close-install-btn" type="button" class="p-2 rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 font-bold">
+            ✕
+          </button>
+        </div>
+
+        <div class="space-y-3 text-sm text-slate-700">
+          <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3.5">
+            <p class="font-extrabold text-emerald-900 mb-1">🤖 En Android (Chrome)</p>
+            <ol class="list-decimal list-inside text-xs space-y-1.5 text-emerald-950">
+              <li>Tocá los <strong>tres puntitos (⋮)</strong> arriba a la derecha del navegador.</li>
+              <li>Elegí <strong>"Agregar a la pantalla principal"</strong> o <strong>"Instalar aplicación"</strong>.</li>
+              <li>Confirmá y te queda el ícono de <strong>Velivery</strong> junto a tus apps.</li>
+            </ol>
+          </div>
+
+          <div class="bg-sky-50 border border-sky-200 rounded-2xl p-3.5">
+            <p class="font-extrabold text-sky-900 mb-1">🍎 En iPhone (Safari)</p>
+            <ol class="list-decimal list-inside text-xs space-y-1.5 text-sky-950">
+              <li>Tocá el botón <strong>Compartir (□↑)</strong> en la barra inferior.</li>
+              <li>Deslizá hacia abajo y tocá <strong>"Agregar a inicio"</strong>.</li>
+              <li>Tocá <strong>"Agregar"</strong> arriba a la derecha y listo.</li>
+            </ol>
+          </div>
+        </div>
+
+        <button id="ok-install-btn" type="button" class="w-full py-3.5 rounded-2xl bg-slate-900 text-white font-extrabold text-sm">
+          ¡Entendido!
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== LÓGICA LIMPIA SIN MEMORIA CACHÉ ==================== -->
+  <script>
+    // Estado en memoria volátil únicamente (sin localStorage ni Ajustes)
+    const state = {
+      serviceType: "Envío / Mandado rápido",
+      serviceExtra: 0,
+      originCity: "Pilar",
+      originAddress: "",
+      destCity: "Pilar",
+      destAddress: "",
+      notes: "",
+      paymentMethod: "Efectivo",
+      clientName: ""
+    };
+
+    // Formato moneda argentina ($3.000)
+    function formatARS(amount) {
+      return "$" + Number(amount).toLocaleString("es-AR");
+    }
+
+    // Cálculo exacto de tarifas fijas de Velivery
+    function calculateFare() {
+      const origin = state.originCity;
+      const dest = state.destCity;
+      let baseFare = 3000;
+      let routeLabel = `Local dentro de ${origin}`;
+
+      if (origin !== dest) {
+        const pair = [origin, dest].sort().join("|");
+
+        if (pair === "Pilar|Río Segundo" || pair === "Costa Sacate|Laguna Larga") {
+          baseFare = 4000;
+          routeLabel = `Tramo vecino: ${origin} → ${dest}`;
+        } else if (pair === "Costa Sacate|Pilar" || pair === "Costa Sacate|Río Segundo") {
+          baseFare = 6000;
+          routeLabel = `Corredor Ruta 9: ${origin} → ${dest}`;
+        } else if (pair === "Laguna Larga|Pilar" || pair === "Laguna Larga|Río Segundo") {
+          baseFare = 7000;
+          routeLabel = `Corredor Ruta 9: ${origin} → ${dest}`;
+        }
+      }
+
+      const extra = Number(state.serviceExtra) || 0;
+      const total = baseFare + extra;
+
+      const breakdown = extra > 0
+        ? `Tramo: ${formatARS(baseFare)} + Gestión/compra: ${formatARS(extra)}`
+        : `Tramo: ${formatARS(baseFare)}`;
+
+      return {
+        baseFare,
+        extra,
+        total,
+        routeLabel,
+        breakdown
+      };
+    }
+
+    // Construcción del mensaje para WhatsApp
+    function buildWhatsAppMessage() {
+      const fare = calculateFare();
+      const retiroDir = state.originAddress.trim() || "(A coordinar)";
+      const entregaDir = state.destAddress.trim() || "(A coordinar)";
+      const detalle = state.notes.trim() || "Sin detalles adicionales";
+      const cliente = state.clientName.trim();
+
+      const lines = [
+        `⚡ *NUEVO PEDIDO - VELIVERY*`,
+        `━━━━━━━━━━━━━━━━━━━━`,
+        `📌 *Servicio:* ${state.serviceType}`,
+        `🟢 *Retiro:* ${state.originCity} — ${retiroDir}`,
+        `🏁 *Entrega:* ${state.destCity} — ${entregaDir}`,
+        `📝 *Detalle:* ${detalle}`,
+        `💵 *Total estimado:* ${formatARS(fare.total)}`,
+        `💳 *Pago:* ${state.paymentMethod}`
+      ];
+
+      if (cliente) {
+        lines.push(`👤 *Cliente:* ${cliente}`);
+      }
+
+      return lines.join("\n");
+    }
+
+    // Actualización visual en tiempo real
+    function updateUI() {
+      const fare = calculateFare();
+      document.getElementById("estimated-price").textContent = formatARS(fare.total);
+      document.getElementById("route-summary-label").textContent = fare.routeLabel;
+      document.getElementById("fare-breakdown").textContent = fare.breakdown;
+      document.getElementById("whatsapp-preview").textContent = buildWhatsAppMessage();
+    }
+
+    // Notificación inline sin alert()
+    function showToast(message, type = "error") {
+      const toast = document.getElementById("toast-alert");
+      toast.textContent = message;
+      toast.classList.remove(
+        "hidden",
+        "bg-red-50", "text-red-800", "border-red-200",
+        "bg-emerald-50", "text-emerald-800", "border-emerald-200"
+      );
+
+      if (type === "error") {
+        toast.classList.add("bg-red-50", "text-red-800", "border-red-200");
+      } else {
+        toast.classList.add("bg-emerald-50", "text-emerald-800", "border-emerald-200");
+      }
+
+      toast.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      setTimeout(() => {
+        toast.classList.add("hidden");
+      }, 4500);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Selección de modalidad de servicio
+      const serviceCards = document.querySelectorAll(".service-card");
+      serviceCards.forEach((card) => {
+        card.addEventListener("click", () => {
+          serviceCards.forEach((c) => {
+            c.classList.remove("border-orange-500", "bg-orange-50/70");
+            c.classList.add("border-slate-200", "bg-white");
+          });
+          card.classList.remove("border-slate-200", "bg-white");
+          card.classList.add("border-orange-500", "bg-orange-50/70");
+
+          state.serviceType = card.dataset.service;
+          state.serviceExtra = Number(card.dataset.extra) || 0;
+          updateUI();
+        });
+      });
+
+      // 2. Localidades y direcciones
+      const originCityEl = document.getElementById("origin-city");
+      const destCityEl = document.getElementById("dest-city");
+      const originAddrEl = document.getElementById("origin-address");
+      const destAddrEl = document.getElementById("dest-address");
+
+      originCityEl.addEventListener("change", (e) => {
+        state.originCity = e.target.value;
+        updateUI();
+      });
+
+      destCityEl.addEventListener("change", (e) => {
+        state.destCity = e.target.value;
+        updateUI();
+      });
+
+      originAddrEl.addEventListener("input", (e) => {
+        state.originAddress = e.target.value;
+        updateUI();
+      });
+
+      destAddrEl.addEventListener("input", (e) => {
+        state.destAddress = e.target.value;
+        updateUI();
+      });
+
+      // Botón invertir localidades y direcciones
+      document.getElementById("swap-cities-btn").addEventListener("click", () => {
+        const prevOriginCity = state.originCity;
+        state.originCity = state.destCity;
+        state.destCity = prevOriginCity;
+
+        const prevOriginAddr = state.originAddress;
+        state.originAddress = state.destAddress;
+        state.destAddress = prevOriginAddr;
+
+        originCityEl.value = state.originCity;
+        destCityEl.value = state.destCity;
+        originAddrEl.value = state.originAddress;
+        destAddrEl.value = state.destAddress;
+        updateUI();
+      });
+
+      // 3. Detalle y nombre
+      document.getElementById("order-notes").addEventListener("input", (e) => {
+        state.notes = e.target.value;
+        updateUI();
+      });
+
+      document.getElementById("client-name").addEventListener("input", (e) => {
+        state.clientName = e.target.value;
+        updateUI();
+      });
+
+      // 4. Método de pago
+      const paymentBtns = document.querySelectorAll(".payment-btn");
+      paymentBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          paymentBtns.forEach((b) => {
+            b.classList.remove("border-emerald-600", "bg-emerald-50", "text-emerald-900");
+            b.classList.add("border-slate-200", "bg-white", "text-slate-700");
+          });
+          btn.classList.remove("border-slate-200", "bg-white", "text-slate-700");
+          btn.classList.add("border-emerald-600", "bg-emerald-50", "text-emerald-900");
+
+          state.paymentMethod = btn.dataset.payment;
+          updateUI();
+        });
+      });
+
+      // 5. Copiar resumen
+      document.getElementById("copy-preview-btn").addEventListener("click", () => {
+        const text = buildWhatsAppMessage();
+        const tempArea = document.createElement("textarea");
+        tempArea.value = text;
+        document.body.appendChild(tempArea);
+        tempArea.select();
+        try {
+          document.execCommand("copy");
+          showToast("✅ Mensaje copiado al portapapeles.", "success");
+        } catch (err) {
+          showToast("No se pudo copiar automáticamente.", "error");
+        }
+        document.body.removeChild(tempArea);
+      });
+
+      // 6. Envío directo y fijo al WhatsApp 5493572583145
+      document.getElementById("send-whatsapp-btn").addEventListener("click", () => {
+        if (!state.originAddress.trim() && !state.destAddress.trim()) {
+          showToast("⚠️ Ingresá al menos una dirección o comercio de retiro/entrega.", "error");
+          originAddrEl.focus();
+          return;
+        }
+
+        const encodedText = encodeURIComponent(buildWhatsAppMessage());
+        const whatsappUrl = `https://wa.me/5493572583145?text=${encodedText}`;
+        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      });
+
+      // 7. Modal instructivo pantalla de inicio
+      const installModal = document.getElementById("install-modal");
+      const openInstall = () => installModal.classList.remove("hidden");
+      const closeInstall = () => installModal.classList.add("hidden");
+
+      document.getElementById("open-install-btn").addEventListener("click", openInstall);
+      document.getElementById("banner-install-btn").addEventListener("click", openInstall);
+      document.getElementById("close-install-btn").addEventListener("click", closeInstall);
+      document.getElementById("ok-install-btn").addEventListener("click", closeInstall);
+
+      // Render inicial
+      updateUI();
+    });
+  </script>
+</body>
+</html>
