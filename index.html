@@ -615,7 +615,7 @@
         document.body.removeChild(tempArea);
       });
 
-      // 6. Envío directo y fijo al WhatsApp 5493572583145
+      // 6. Envío directo y fijo al WhatsApp 543572583145
       document.getElementById("send-whatsapp-btn").addEventListener("click", () => {
         if (!state.originAddress.trim() && !state.destAddress.trim()) {
           showToast("⚠️ Ingresá al menos una dirección o comercio de retiro/entrega.", "error");
@@ -624,7 +624,7 @@
         }
 
         const encodedText = encodeURIComponent(buildWhatsAppMessage());
-        const whatsappUrl = `https://wa.me/5493572583145?text=${encodedText}`;
+        const whatsappUrl = `https://wa.me/543572583145?text=${encodedText}`;
         window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       });
 
