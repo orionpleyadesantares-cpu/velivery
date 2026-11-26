@@ -1,0 +1,18 @@
+{
+  "name": "Velivery • Cadetería & Delivery",
+  "short_name": "Velivery",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ea580c",
+  "theme_color": "#ea580c",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/7541/7541900.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
