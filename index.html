@@ -7,6 +7,11 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Velivery • Cadetería &amp; Delivery</title>
+  <link rel="manifest" href="./manifest.json" />
+ 
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Velivery" />
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -59,12 +64,12 @@
           </div>
         </div>
 
-        <button
-          id="open-install-btn"
+       <button
+          id="install-app-btn"
           type="button"
-          class="bg-white/20 hover:bg-white/30 active:scale-95 text-white text-xs font-bold px-3 py-2 rounded-2xl transition shrink-0"
+          class="hidden bg-white text-orange-700 hover:bg-orange-50 active:scale-95 text-xs font-black px-3.5 py-2 rounded-2xl shadow-sm transition shrink-0"
         >
-          📲 Guardar App
+          ⬇️ Instalar App
         </button>
       </div>
 
@@ -674,6 +679,32 @@
 
       updateUI();
     });
+    // Registrar Service Worker para habilitar instalación en Android
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      }
+
+      // Capturar evento nativo de instalación en Android/Chrome
+      let deferredInstallPrompt = null;
+      const installAppBtn = document.getElementById("install-app-btn");
+
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+        if (installAppBtn) {
+          installAppBtn.classList.remove("hidden");
+        }
+      });
+
+      if (installAppBtn) {
+        installAppBtn.addEventListener("click", async () => {
+          if (!deferredInstallPrompt) return;
+          deferredInstallPrompt.prompt();
+          await deferredInstallPrompt.userChoice;
+          deferredInstallPrompt = null;
+          installAppBtn.classList.add("hidden");
+        });
+      }
   </script>
 </body>
 </html>
