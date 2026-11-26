@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#ea580c" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>Velivery • Cadetería & Delivery</title>
+  <title>Velivery • Cadetería &amp; Delivery</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -23,7 +23,6 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* Evitar zoom automático en inputs en iOS manteniendo font-size >= 16px */
     input, select, textarea {
       font-size: 16px !important;
     }
@@ -39,14 +38,12 @@
 </head>
 <body class="min-h-screen flex justify-center bg-slate-200 text-slate-900">
 
-  <!-- Contenedor principal Mobile-First -->
   <div class="w-full max-w-md min-h-screen bg-slate-50 shadow-2xl flex flex-col relative pb-28">
 
     <!-- ==================== ENCABEZADO VELIVERY ==================== -->
     <header class="bg-gradient-to-br from-orange-600 via-orange-500 to-amber-500 text-white px-5 pt-6 pb-7 rounded-b-3xl shadow-md">
       <div class="flex items-center justify-between gap-3">
         <div class="flex items-center gap-3.5">
-          <!-- Isotipo rayo de velocidad -->
           <div class="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-inner shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
@@ -62,7 +59,6 @@
           </div>
         </div>
 
-        <!-- Botón instructivo para instalar como app en pantalla -->
         <button
           id="open-install-btn"
           type="button"
@@ -72,14 +68,12 @@
         </button>
       </div>
 
-      <!-- Corredor Ruta 9 -->
       <div class="mt-4 bg-black/15 rounded-2xl px-3.5 py-2.5 flex items-center justify-center">
         <span class="text-xs font-bold text-white tracking-wide text-center">
           📍 Pilar • Río Segundo • Costa Sacate • Laguna Larga
         </span>
       </div>
 
-      <!-- Indicador activo -->
       <div class="mt-3 flex items-center justify-between text-xs">
         <span class="inline-flex items-center gap-2 bg-white text-slate-900 px-3 py-1 rounded-full font-extrabold shadow-xs">
           <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -92,7 +86,6 @@
     <!-- ==================== FORMULARIO DE PEDIDO ==================== -->
     <main class="px-4 pt-5 space-y-5 flex-1">
 
-      <!-- Mensaje de aviso inline (reemplaza alert()) -->
       <div id="toast-alert" class="hidden rounded-2xl p-3.5 text-sm font-bold shadow-md border transition-all"></div>
 
       <!-- PASO 1: MODALIDAD DE SERVICIO -->
@@ -103,7 +96,6 @@
         </h2>
 
         <div class="space-y-2.5" id="service-grid">
-          <!-- Modalidad 1: Envío / Mandado rápido ($0 adicional) -->
           <button
             type="button"
             data-service="Envío / Mandado rápido"
@@ -122,7 +114,6 @@
             </span>
           </button>
 
-          <!-- Modalidad 2: Compra en comercio / Farmacia (+$1.000 adicional) -->
           <button
             type="button"
             data-service="Compra en comercio / Farmacia"
@@ -141,7 +132,6 @@
             </span>
           </button>
 
-          <!-- Modalidad 3: Encomienda Ruta 9 ($0 adicional) -->
           <button
             type="button"
             data-service="Encomienda Ruta 9"
@@ -178,7 +168,6 @@
           </button>
         </div>
 
-        <!-- LOCALIDAD Y DIRECCIÓN DE RETIRO -->
         <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/90 space-y-2.5">
           <label for="origin-city" class="block text-xs font-extrabold uppercase tracking-wider text-orange-600">
             🟢 Localidad de Retiro
@@ -201,7 +190,6 @@
           />
         </div>
 
-        <!-- LOCALIDAD Y DIRECCIÓN DE ENTREGA -->
         <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200/90 space-y-2.5">
           <label for="dest-city" class="block text-xs font-extrabold uppercase tracking-wider text-emerald-700">
             🏁 Localidad de Entrega
@@ -225,7 +213,7 @@
         </div>
       </section>
 
-      <!-- PASO 3: TARIFA TOTAL CALCULADA -->
+      <!-- TARIFA TOTAL CALCULADA -->
       <section class="bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-3xl p-5 shadow-md">
         <div class="flex items-center justify-between gap-2">
           <div>
@@ -250,7 +238,7 @@
         </div>
       </section>
 
-      <!-- PASO 4: DETALLE DEL PEDIDO Y MEDIO DE PAGO -->
+      <!-- PASO 3: DETALLE DEL PEDIDO Y MEDIO DE PAGO -->
       <section class="bg-white rounded-3xl p-4 shadow-sm border border-slate-200/80 space-y-4">
         <h2 class="text-base font-extrabold text-slate-800 flex items-center gap-2">
           <span class="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs font-black flex items-center justify-center">3</span>
@@ -288,9 +276,35 @@
               <span>📲</span> Transferencia
             </button>
           </div>
+
+          <!-- Recuadro de Alias visible al elegir Transferencia -->
+          <div id="alias-box" class="hidden mt-3 bg-sky-50 border border-sky-200 rounded-2xl p-3.5 space-y-2">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <p class="text-[11px] font-extrabold uppercase tracking-wider text-sky-800">
+                  Alias para transferir
+                </p>
+                <p id="alias-value" class="text-sm font-black text-slate-900 select-all">
+                  Velivery
+                </p>
+                <p id="alias-holder" class="text-xs text-sky-900">
+                  Titular: Veronica Soto
+                </p>
+              </div>
+              <button
+                id="copy-alias-btn"
+                type="button"
+                class="bg-sky-700 hover:bg-sky-800 active:scale-95 text-white text-xs font-extrabold px-3.5 py-2 rounded-xl transition shrink-0"
+              >
+                Copiar Alias
+              </button>
+            </div>
+            <p class="text-[11px] text-sky-800">
+              Enviá el comprobante por WhatsApp al confirmar el pedido.
+            </p>
+          </div>
         </div>
 
-        <!-- Nombre opcional -->
         <div>
           <label for="client-name" class="block text-xs font-bold text-slate-600 mb-1.5">
             Tu nombre o comercio (opcional)
@@ -304,7 +318,7 @@
         </div>
       </section>
 
-      <!-- SECCIÓN INSTRUCTIVA RÁPIDA: AGREGAR A PANTALLA DE INICIO -->
+      <!-- INSTRUCTIVO AGREGAR A PANTALLA DE INICIO -->
       <section class="bg-orange-50 border border-orange-200 rounded-3xl p-4 space-y-2">
         <div class="flex items-center justify-between gap-2">
           <p class="text-xs font-extrabold text-orange-900">📲 Tené Velivery siempre a mano</p>
@@ -340,7 +354,7 @@
 
     </main>
 
-    <!-- ==================== BOTÓN FIJO INFERIOR WHATSAPP ==================== -->
+    <!-- BOTÓN FIJO INFERIOR WHATSAPP -->
     <div class="fixed bottom-0 w-full max-w-md bg-white/95 backdrop-blur-md border-t border-slate-200 px-4 py-3.5 z-30">
       <button
         id="send-whatsapp-btn"
@@ -355,7 +369,7 @@
       </button>
     </div>
 
-    <!-- ==================== MODAL INSTRUCTIVO PANTALLA DE INICIO ==================== -->
+    <!-- MODAL INSTRUCTIVO PANTALLA DE INICIO -->
     <div id="install-modal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-xs z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
       <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 max-h-[85vh] overflow-y-auto shadow-2xl animate-slide-up space-y-4">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -396,9 +410,11 @@
 
   </div>
 
-  <!-- ==================== LÓGICA LIMPIA SIN MEMORIA CACHÉ ==================== -->
   <script>
-    // Estado en memoria volátil únicamente (sin localStorage ni Ajustes)
+    // Configurá acá tu Alias y Titular para pagos por transferencia
+    const TRANSFER_ALIAS = "TU.ALIAS.AQUI";
+    const TRANSFER_HOLDER = "Tu Nombre";
+
     const state = {
       serviceType: "Envío / Mandado rápido",
       serviceExtra: 0,
@@ -411,12 +427,10 @@
       clientName: ""
     };
 
-    // Formato moneda argentina ($3.000)
     function formatARS(amount) {
       return "$" + Number(amount).toLocaleString("es-AR");
     }
 
-    // Cálculo exacto de tarifas fijas de Velivery
     function calculateFare() {
       const origin = state.originCity;
       const dest = state.destCity;
@@ -454,7 +468,6 @@
       };
     }
 
-    // Construcción del mensaje para WhatsApp
     function buildWhatsAppMessage() {
       const fare = calculateFare();
       const retiroDir = state.originAddress.trim() || "(A coordinar)";
@@ -473,6 +486,10 @@
         `💳 *Pago:* ${state.paymentMethod}`
       ];
 
+      if (state.paymentMethod === "Transferencia") {
+        lines.push(`🏦 *Alias:* ${TRANSFER_ALIAS}`);
+      }
+
       if (cliente) {
         lines.push(`👤 *Cliente:* ${cliente}`);
       }
@@ -480,16 +497,48 @@
       return lines.join("\n");
     }
 
-    // Actualización visual en tiempo real
+    function copyTextToClipboard(text, successMsg) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+          .then(() => showToast(successMsg, "success"))
+          .catch(() => fallbackCopy(text, successMsg));
+      } else {
+        fallbackCopy(text, successMsg);
+      }
+    }
+
+    function fallbackCopy(text, successMsg) {
+      const tempArea = document.createElement("textarea");
+      tempArea.value = text;
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      try {
+        document.execCommand("copy");
+        showToast(successMsg, "success");
+      } catch (err) {
+        showToast("No se pudo copiar automáticamente.", "error");
+      }
+      document.body.removeChild(tempArea);
+    }
+
     function updateUI() {
       const fare = calculateFare();
       document.getElementById("estimated-price").textContent = formatARS(fare.total);
       document.getElementById("route-summary-label").textContent = fare.routeLabel;
       document.getElementById("fare-breakdown").textContent = fare.breakdown;
+      document.getElementById("alias-value").textContent = TRANSFER_ALIAS;
+      document.getElementById("alias-holder").textContent = `Titular: ${TRANSFER_HOLDER}`;
+
+      const aliasBox = document.getElementById("alias-box");
+      if (state.paymentMethod === "Transferencia") {
+        aliasBox.classList.remove("hidden");
+      } else {
+        aliasBox.classList.add("hidden");
+      }
+
       document.getElementById("whatsapp-preview").textContent = buildWhatsAppMessage();
     }
 
-    // Notificación inline sin alert()
     function showToast(message, type = "error") {
       const toast = document.getElementById("toast-alert");
       toast.textContent = message;
@@ -512,7 +561,6 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
-      // 1. Selección de modalidad de servicio
       const serviceCards = document.querySelectorAll(".service-card");
       serviceCards.forEach((card) => {
         card.addEventListener("click", () => {
@@ -529,7 +577,6 @@
         });
       });
 
-      // 2. Localidades y direcciones
       const originCityEl = document.getElementById("origin-city");
       const destCityEl = document.getElementById("dest-city");
       const originAddrEl = document.getElementById("origin-address");
@@ -555,7 +602,6 @@
         updateUI();
       });
 
-      // Botón invertir localidades y direcciones
       document.getElementById("swap-cities-btn").addEventListener("click", () => {
         const prevOriginCity = state.originCity;
         state.originCity = state.destCity;
@@ -572,7 +618,6 @@
         updateUI();
       });
 
-      // 3. Detalle y nombre
       document.getElementById("order-notes").addEventListener("input", (e) => {
         state.notes = e.target.value;
         updateUI();
@@ -583,7 +628,6 @@
         updateUI();
       });
 
-      // 4. Método de pago
       const paymentBtns = document.querySelectorAll(".payment-btn");
       paymentBtns.forEach((btn) => {
         btn.addEventListener("click", () => {
@@ -599,23 +643,14 @@
         });
       });
 
-      // 5. Copiar resumen
-      document.getElementById("copy-preview-btn").addEventListener("click", () => {
-        const text = buildWhatsAppMessage();
-        const tempArea = document.createElement("textarea");
-        tempArea.value = text;
-        document.body.appendChild(tempArea);
-        tempArea.select();
-        try {
-          document.execCommand("copy");
-          showToast("✅ Mensaje copiado al portapapeles.", "success");
-        } catch (err) {
-          showToast("No se pudo copiar automáticamente.", "error");
-        }
-        document.body.removeChild(tempArea);
+      document.getElementById("copy-alias-btn").addEventListener("click", () => {
+        copyTextToClipboard(TRANSFER_ALIAS, "✅ Alias copiado al portapapeles.");
       });
 
-      // 6. Envío directo y fijo al WhatsApp 543572583145
+      document.getElementById("copy-preview-btn").addEventListener("click", () => {
+        copyTextToClipboard(buildWhatsAppMessage(), "✅ Mensaje copiado al portapapeles.");
+      });
+
       document.getElementById("send-whatsapp-btn").addEventListener("click", () => {
         if (!state.originAddress.trim() && !state.destAddress.trim()) {
           showToast("⚠️ Ingresá al menos una dirección o comercio de retiro/entrega.", "error");
@@ -628,7 +663,6 @@
         window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       });
 
-      // 7. Modal instructivo pantalla de inicio
       const installModal = document.getElementById("install-modal");
       const openInstall = () => installModal.classList.remove("hidden");
       const closeInstall = () => installModal.classList.add("hidden");
@@ -638,7 +672,6 @@
       document.getElementById("close-install-btn").addEventListener("click", closeInstall);
       document.getElementById("ok-install-btn").addEventListener("click", closeInstall);
 
-      // Render inicial
       updateUI();
     });
   </script>
